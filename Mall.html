@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mall</title>
+    <link rel="icon" href="mall_logo_new.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        /* Universal Styles */
+        :root {
+            --bg-color: #0d0d1a; /* Soft, deep blue-black */
+            --text-color: #e0e0f0; /* Off-white for readability */
+            --card-bg: #1a1a33; /* Dark purple-blue for cards */
+            --primary-color: #a062ff; /* Soft violet */
+            --secondary-color: #6a5acd; /* Royal blue */
+            --glow-color: #a462ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* General cursor change for interactive elements */
+        a, button, .category-card, .product-card, .sub-category-card {
+            cursor: pointer;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            background-color: var(--card-bg);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        /* Styling for the new image logo */
+        .mall-logo {
+            height: 40px;
+            width: 40px;
+            margin-right: 10px;
+            border-radius: 50%; /* Make it a circle */
+            object-fit: cover; /* Ensure it fits without distortion */
+        }
+
+        .logo a {
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .header-icons a {
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .header-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .category-section {
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .category-card h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            letter-spacing: 1px;
+            text-transform: capitalize;
+        }
+
+        /* --- Updated Lucky Wheel Section Styles --- */
+        #lucky-spin-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem 1rem;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            margin: 2rem auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        #lucky-spin-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        #lucky-spin-section p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+        
+        #spin-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(164, 98, 255, 0.5);
+            animation: pulse-border 3s infinite ease-in-out;
+        }
+        
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 15px rgba(164, 98, 255, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(164, 98, 255, 0.8), 0 0 35px rgba(164, 98, 255, 0.6); }
+            100% { box-shadow: 0 0 15px rgba(164, 98, 255, 0.5); }
+        }
+
+        #wheel {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative;
+            transition: transform 5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        /* Pointer at the top of the wheel */
+        #pointer {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 25px solid #fff;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+        }
+        
+        /* New segment styles for a clean circular layout */
+        .wheel-segment {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%; /* Make segments circular */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            color: #fff;
+            transform-origin: 50% 50%;
+            transform: translate(-50%, -50%) rotate(var(--initial-rotation)) translateY(-150px);
+        }
+        
+        /* Segment colors from the provided image */
+        .segment-1 { background-color: #FFA500; }
+        .segment-2 { background-color: #32CD32; }
+        .segment-3 { background-color: #8A2BE2; }
+        .segment-4 { background-color: #FF69B4; }
+        .segment-5 { background-color: #FF1493; }
+        .segment-6 { background-color: #8A2BE2; } /* Repeated color from the image */
+        .segment-7 { background-color: #00BFFF; }
+        .segment-8 { background-color: #FF4500; }
+
+        /* Segment text to prevent spinning with the wheel */
+        .wheel-segment span {
+            transform: rotate(calc(-1 * var(--initial-rotation) - var(--wheel-rotation)));
+        }
+
+        #spin-button {
+            background: #1a1a33;
+            border: 2px solid var(--primary-color);
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bold;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: absolute;
+            z-index: 10;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        #spin-button:disabled {
+            background: #0d0d1a;
+            color: #666;
+            cursor: not-allowed;
+            border: 2px solid #333;
+            animation: none;
+        }
+        
+        #spin-button.active {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        #spin-button.active:hover {
+            transform: translate(-50%, -50%) scale(1.05);
+            background: linear-gradient(45deg, #00C9FF, #92FE9D);
+            color: #121212;
+            animation: none;
+        }
+
+        /* Keyframes for the pulse glow effect */
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(164, 98, 255, 0.5); }
+            50% { box-shadow: 0 0 25px var(--glow-color), 0 0 40px rgba(164, 98, 255, 0.8); }
+            100% { box-shadow: 0 0 15px var(--glow-color), 0 0 30px rgba(164, 98, 255, 0.5); }
+        }
+
+        #result-display {
+            font-size: 1.5rem;
+            font-weight: bold;
+            min-height: 2em;
+            text-align: center;
+            text-transform: capitalize;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px var(--glow-color);
+            background: var(--card-bg);
+            width: 100%;
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--card-bg);
+            color: #ccc;
+            padding: 3rem 1rem;
+            font-size: 0.9rem;
+            box-shadow: 0 -2px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-content h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-content a {
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .footer-content a:hover {
+            color: var(--primary-color);
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            color: #ccc;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .header-icons {
+                gap: 1rem;
+            }
+
+            .main-content {
+                padding: 0 0.5rem;
+            }
+
+            .category-card h2 {
+                font-size: 1.2rem;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .social-icons {
+                margin-top: 1rem;
+            }
+
+            #spin-container {
+                width: 350px;
+                height: 350px;
+            }
+
+            .wheel-segment {
+                width: 100px;
+                height: 100px;
+                transform: translate(-50%, -50%) rotate(var(--initial-rotation)) translateY(-120px);
+                font-size: 0.7rem;
+            }
+
+            #spin-button {
+                width: 100px;
+                height: 100px;
+            }
+        }
+
+        /* New Page-specific styles */
+        .page-container {
+            display: none;
+        }
+        
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h2 {
+            font-size: 2rem;
+            text-transform: capitalize;
+        }
+
+        .back-button {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: var(--primary-color);
+        }
+
+        .account-form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .account-form h3 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group input {
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            outline: none;
+        }
+
+        .submit-button {
+            background: var(--primary-color);
+            color: #fff;
+            font-weight: bold;
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background: var(--secondary-color);
+        }
+
+        #account-message {
+            text-align: center;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        /* Styles for product cards */
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .product-card, .sub-category-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 1rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-card:hover, .sub-category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img, .sub-category-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3, .sub-category-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-card p, .sub-category-card p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Message Box styling (replaces alert()) */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .message-box p {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .message-box button {
+            background: var(--primary-color);
+            color: #fff;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Keyframes for the fade in animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translate(-50%, -60%); }
+            to { opacity: 1; transform: translate(-50%, -50%); }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo">
+            <a href="#" onclick="showPage('main', null, null, true)">
+                <img src="mall_logo.png" alt="Mall Logo" class="mall-logo">
+                Mall
+            </a>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#" onclick="showPage('main', null, null, true)">Categories</a></li>
+                <li><a href="#" onclick="showPage('best-sellers', null, null, true)">Best Sellers</a></li>
+                <li><a href="#" onclick="showPage('deals', null, null, true)">Deals</a></li>
+            </ul>
+        </nav>
+        <div class="header-icons">
+            <a href="#" onclick="showMessage('Search functionality coming soon!')"><i class="fas fa-search"></i></a>
+            <a href="#" onclick="showMessage('Your cart is empty.')"><i class="fas fa-shopping-cart"></i></a>
+            <a href="#" id="account-icon" onclick="showPage('account', null, null, true)"><i class="fas fa-user-circle"></i></a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        
+        <div id="main-page" class="page-container" style="display: block;">
+            <div id="lucky-spin-section">
+                <h2>✨ Lucky Spin of the Month! ✨</h2>
+                <p id="spin-info">The Lucky Spin is only available on the 1st of every month. Please come back on December 1.</p>
+                <div id="spin-container">
+                    <div id="pointer"></div>
+                    <div id="wheel">
+                        <div class="wheel-segment segment-1" style="--initial-rotation: 0deg;">
+                            <span>Electronic Gadgets</span>
+                        </div>
+                        <div class="wheel-segment segment-2" style="--initial-rotation: 45deg;">
+                            <span>Women's Wear</span>
+                        </div>
+                        <div class="wheel-segment segment-3" style="--initial-rotation: 90deg;">
+                            <span>Kitchen Appliances</span>
+                        </div>
+                        <div class="wheel-segment segment-4" style="--initial-rotation: 135deg;">
+                            <span>Home Decor</span>
+                        </div>
+                        <div class="wheel-segment segment-5" style="--initial-rotation: 180deg;">
+                            <span>Grocery</span>
+                        </div>
+                        <div class="wheel-segment segment-6" style="--initial-rotation: 225deg;">
+                            <span>Grocery</span>
+                        </div>
+                        <div class="wheel-segment segment-7" style="--initial-rotation: 270deg;">
+                            <span>Men's Wear</span>
+                        </div>
+                        <div class="wheel-segment segment-8" style="--initial-rotation: 315deg;">
+                            <span>Kids Toys</span>
+                        </div>
+                    </div>
+                    <button id="spin-button" disabled>LOCKED</button>
+                </div>
+                <div id="result-display" style="min-height: 2em; text-align: center;"></div>
+            </div>
+
+            <section class="category-section">
+                <div class="category-card" data-category="kids_toys">
+                    <h2>Kids wear and toys</h2>
+                </div>
+            </section>
+            <section class="category-section">
+                <div class="category-card" data-category="women_wear">
+                    <h2>Women's wear and grocery</h2>
+                </div>
+            </section>
+            <section class="category-section">
+                <div class="category-card" data-category="men_wear">
+                    <h2>Men's wear and grocery</h2>
+                </div>
+            </section>
+            <section class="category-section">
+                <div class="category-card" data-category="kitchen_appliances">
+                    <h2>Kitchen and grocery</h2>
+                </div>
+            </section>
+            <section class="category-section">
+                <div class="category-card" data-category="electronic_gadgets">
+                    <h2>Electronic gadgets</h2>
+                </div>
+            </section>
+        </div>
+
+        <div id="category-page" class="page-container">
+            <div class="page-header">
+                <button class="back-button" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <h2 id="category-page-title"></h2>
+            </div>
+            <div id="category-content" class="product-list">
+                </div>
+        </div>
+
+        <div id="best-sellers-page" class="page-container">
+            <div class="page-header">
+                <button class="back-button" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <h2>Best Sellers</h2>
+            </div>
+            <p style="text-align:center;">Our top-selling products are coming soon!</p>
+        </div>
+
+        <div id="deals-page" class="page-container">
+            <div class="page-header">
+                <button class="back-button" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <h2>Daily Deals</h2>
+            </div>
+            <p style="text-align:center;">Check back here for amazing deals and discounts!</p>
+        </div>
+
+        <div id="account-page" class="page-container">
+            <div class="page-header">
+                <button class="back-button" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+                <h2>Create Account</h2>
+            </div>
+            <div class="account-form">
+                <h3>Sign Up</h3>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+                <button class="submit-button" onclick="createAccount()">Create Account</button>
+                <p id="account-message"></p>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="message-box" class="message-box">
+        <p id="message-text"></p>
+        <button onclick="hideMessage()">OK</button>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="customer-care">
+                <h3>Customer Care</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Help & FAQs</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                </ul>
+            </div>
+            <div class="about-us">
+                <h3>About Us</h3>
+                <ul>
+                    <li><a href="#">Our Story</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="follow-us">
+                <h3>Follow Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const spinSection = document.getElementById('lucky-spin-section');
+        const spinButton = document.getElementById('spin-button');
+        const wheel = document.getElementById('wheel');
+        const resultDisplay = document.getElementById('result-display');
+        const spinInfo = document.getElementById('spin-info');
+        const categoryPageTitle = document.getElementById('category-page-title');
+        const categoryContent = document.getElementById('category-content');
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+
+        // Initialize with the starting page
+        let pageHistory = [{ page: 'main', category: null, subCategory: null }];
+
+        // Mock product data with nested sub-categories
+        const productsData = {
+            kids_toys: {
+                title: "Kids wear and toys",
+                sub_categories: {
+                    clothes: [
+                        { name: "Colorful T-shirt", image: "https://placehold.co/250x200/FF5733/FFFFFF?text=Kids+Tee", price: "$15.99" },
+                        { name: "Denim Jeans", image: "https://placehold.co/250x200/403d52/e0e0f0?text=Kids+Jeans", price: "$22.50" },
+                    ],
+                    toys: [
+                        { name: "Dinosaur Toy Set", image: "https://placehold.co/250x200/33FF57/000000?text=Dino+Toys", price: "$29.99" },
+                        { name: "Super Hero Cape", image: "https://placehold.co/250x200/33C6FF/FFFFFF?text=Hero+Cape", price: "$19.50" },
+                    ],
+                }
+            },
+            women_wear: {
+                title: "Women's wear and grocery",
+                sub_categories: {
+                    cosmetics: [
+                        { name: "Natural Lipstick", image: "https://placehold.co/250x200/FF4500/FFFFFF?text=Lipstick", price: "$25.00" },
+                        { name: "Facial Serum", image: "https://placehold.co/250x200/1a1a33/a062ff?text=Serum", price: "$49.99" },
+                    ],
+                    dresses: [
+                        { name: "Summer Dress", image: "https://placehold.co/250x200/FF33E0/FFFFFF?text=Summer+Dress", price: "$45.00" },
+                        { name: "Designer Handbag", image: "https://placehold.co/250x200/D633FF/FFFFFF?text=Handbag", price: "$120.00" },
+                    ]
+                }
+            },
+            men_wear: {
+                title: "Men's wear and grocery",
+                sub_categories: {
+                    apparel: [
+                        { name: "Polo Shirt", image: "https://placehold.co/250x200/8E33FF/FFFFFF?text=Polo+Shirt", price: "$35.00" },
+                        { name: "Formal Trousers", image: "https://placehold.co/250x200/FF5733/FFFFFF?text=Trousers", price: "$75.00" },
+                    ],
+                    footwear: [
+                        { name: "Casual Sneakers", image: "https://placehold.co/250x200/FFBD33/000000?text=Sneakers", price: "$55.00" },
+                        { name: "Leather Boots", image: "https://placehold.co/250x200/1a1a33/e0e0f0?text=Boots", price: "$110.00" },
+                    ],
+                }
+            },
+            kitchen_appliances: {
+                title: "Kitchen and grocery",
+                sub_categories: {
+                    appliances: [
+                        { name: "Smart Coffee Maker", image: "https://placehold.co/250x200/33C6FF/FFFFFF?text=Coffee+Maker", price: "$99.99" },
+                        { name: "Blender", image: "https://placehold.co/250x200/6a5acd/FFFFFF?text=Blender", price: "$49.50" },
+                    ],
+                    grocery: [
+                        { name: "Fresh Produce", image: "https://placehold.co/250x200/33FF57/000000?text=Veggies", price: "$25.00" },
+                        { name: "Organic Spices", image: "https://placehold.co/250x200/FFBD33/000000?text=Spices", price: "$18.00" },
+                    ]
+                }
+            },
+            electronic_gadgets: {
+                title: "Electronic gadgets",
+                sub_categories: {
+                    headphones: [
+                        { name: "Wireless Headphones", image: "https://placehold.co/250x200/a062ff/FFFFFF?text=Headphones", price: "$89.99", brand: "Brand A" },
+                        { name: "Noise-Cancelling Headphones", image: "https://placehold.co/250x200/403d52/a062ff?text=Headphones", price: "$199.99", brand: "Brand B" },
+                    ],
+                    monitors: [
+                        { name: "4K LED Monitor", image: "https://placehold.co/250x200/1a1a33/FFFFFF?text=Monitor", price: "$250.00", brand: "Brand X" },
+                        { name: "Curved Gaming Monitor", image: "https://placehold.co/250x200/0d0d1a/e0e0f0?text=Monitor", price: "$350.00", brand: "Brand Y" },
+                    ],
+                    gaming_mouse: [
+                        { name: "Gaming Mouse", image: "https://placehold.co/250x200/0d0d1a/e0e0f0?text=Gaming+Mouse", price: "$59.99", brand: "Brand Z" },
+                        { name: "Ergonomic Mouse", image: "https://placehold.co/250x200/a062ff/1a1a33?text=Mouse", price: "$75.00", brand: "Brand W" },
+                    ],
+                }
+            },
+        };
+
+        const prizes = [
+            "Electronic Gadgets", "Women's Wear", "Kitchen Appliances", "Home Decor",
+            "Grocery", "Grocery", "Men's Wear", "Kids Toys"
+        ];
+        const degreesPerSegment = 360 / prizes.length;
+        
+        window.onload = function() {
+            const today = new Date();
+            const day = today.getDate();
+            const month = today.getMonth();
+            const year = today.getFullYear();
+            const lastSpinKey = `lastSpin_${year}_${month}`;
+
+            if (day === 1) {
+                const hasSpunThisMonth = localStorage.getItem(lastSpinKey);
+                if (hasSpunThisMonth) {
+                    spinInfo.textContent = `You have already spun this month. Come back next month!`;
+                    spinButton.disabled = true;
+                    spinButton.textContent = "LOCKED";
+                    spinButton.classList.remove('active');
+                } else {
+                    spinInfo.textContent = `Spin the wheel to get an 80% discount on a lucky item!`;
+                    spinButton.disabled = false;
+                    spinButton.textContent = "SPIN";
+                    spinButton.classList.add('active');
+                }
+            } else {
+                spinInfo.textContent = `The Lucky Spin is only available on the 1st of every month. Please come back on the ${new Date(year, month + 1, 1).toLocaleDateString()}.`;
+                spinButton.disabled = true;
+                spinButton.textContent = "LOCKED";
+                spinButton.classList.remove('active');
+            }
+        };
+
+        function showPage(pageId, category = null, subCategory = null, clearHistory = false) {
+            // Clear history if we are navigating from the main header links
+            if (clearHistory) {
+                pageHistory = [{ page: 'main', category: null, subCategory: null }];
+                if (pageId !== 'main') {
+                     pageHistory.push({ page: pageId, category: category, subCategory: subCategory });
+                }
+            } else {
+                // Push current page state to history for back navigation
+                const lastState = pageHistory[pageHistory.length - 1];
+                if (lastState.page !== pageId || lastState.category !== category || lastState.subCategory !== subCategory) {
+                    pageHistory.push({ page: pageId, category: category, subCategory: subCategory });
+                }
+            }
+            
+            const pages = document.querySelectorAll('.page-container');
+            pages.forEach(page => {
+                page.style.display = 'none';
+            });
+            
+            const pageToShow = document.getElementById(`${pageId}-page`);
+            if (pageToShow) {
+                pageToShow.style.display = 'block';
+            }
+
+            if (pageId === 'category') {
+                renderCategory(category, subCategory);
+            }
+        }
+        
+        function renderCategory(category, subCategory) {
+            const categoryData = productsData[category];
+            if (!categoryData) {
+                categoryPageTitle.textContent = "Category Not Found";
+                categoryContent.innerHTML = `<p style="text-align:center; padding: 2rem;">Sorry, this category does not exist.</p>`;
+                return;
+            }
+
+            categoryContent.innerHTML = '';
+            
+            if (subCategory) {
+                // Render specific products in the sub-category
+                const products = categoryData.sub_categories[subCategory] || [];
+                categoryPageTitle.textContent = `${subCategory.replace('_', ' ')}s`;
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.className = 'product-card';
+                    productCard.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p>${product.price}</p>
+                        <p>${product.brand ? 'Brand: ' + product.brand : ''}</p>
+                    `;
+                    productCard.addEventListener('click', () => {
+                        showMessage(`${product.name} added to cart!`);
+                    });
+                    categoryContent.appendChild(productCard);
+                });
+            } else {
+                // Render sub-category cards
+                categoryPageTitle.textContent = categoryData.title;
+                const subCategories = categoryData.sub_categories;
+                for (const subCat in subCategories) {
+                    const subCategoryCard = document.createElement('div');
+                    subCategoryCard.className = 'sub-category-card';
+                    subCategoryCard.innerHTML = `
+                        <h3>${subCat.replace('_', ' ')}</h3>
+                    `;
+                    subCategoryCard.addEventListener('click', () => {
+                        showPage('category', category, subCat);
+                    });
+                    categoryContent.appendChild(subCategoryCard);
+                }
+            }
+        }
+
+        function goBack() {
+            // Remove the current page from the history stack
+            pageHistory.pop();
+            
+            // Get the last page from the history
+            const lastPage = pageHistory[pageHistory.length - 1];
+            
+            // If we have a last page in history, navigate to it.
+            // Otherwise, we are at the beginning, so show the main page.
+            if (lastPage) {
+                showPage(lastPage.page, lastPage.category, lastPage.subCategory);
+            } else {
+                showPage('main');
+            }
+        }
+
+        function showMessage(text) {
+            messageText.textContent = text;
+            messageBox.style.display = 'flex';
+        }
+
+        function hideMessage() {
+            messageBox.style.display = 'none';
+        }
+
+        function createAccount() {
+            const username = document.getElementById('username').value;
+            const accountMessage = document.getElementById('account-message');
+            if (username.length > 0) {
+                accountMessage.textContent = `Success! Account for "${username}" created.`;
+                accountMessage.style.color = '#33FF57';
+            } else {
+                accountMessage.textContent = `Please enter a username.`;
+                accountMessage.style.color = '#FF5733';
+            }
+        }
+
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('click', (event) => {
+                const category = event.currentTarget.dataset.category;
+                showPage('category', category);
+            });
+        });
+
+        spinButton.addEventListener('click', () => {
+            spinButton.disabled = true;
+            spinButton.textContent = "Spinning...";
+            spinButton.classList.remove('active');
+
+            const segments = document.querySelectorAll('.wheel-segment');
+            const winningIndex = Math.floor(Math.random() * prizes.length);
+            const winningPrize = prizes[winningIndex];
+            
+            const degreesToWin = (360 * 10) + (360 - (winningIndex * degreesPerSegment) + (Math.random() * 30 - 15));
+            
+            wheel.style.transition = 'transform 5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            wheel.style.transform = `rotate(${degreesToWin}deg)`;
+            
+            setTimeout(() => {
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = today.getMonth();
+                const lastSpinKey = `lastSpin_${year}_${month}`;
+                
+                localStorage.setItem(lastSpinKey, 'true');
+                resultDisplay.textContent = `You won: ${winningPrize}!`;
+                showMessage(`Congratulations! You've won an 80% discount on a lucky item from the "${winningPrize}" category!`);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
